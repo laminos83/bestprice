@@ -18,9 +18,9 @@
 ## Test :
 
 - install curl (apt-get install curl)
-- curl [http://localhost:8080/bluespurs_test-1.0/rs/product/search?name=ipod]
+- curl [http://localhost:8080/bluespurs_test-1.0/rs/product/search?name=ipod](http://localhost:8080/bluespurs_test-1.0/rs/product/search?name=ipod)
 - **OR**
-- use web interface [http://localhost:8080/bluespurs_test-1.0/]
+- use web interface [http://localhost:8080/bluespurs_test-1.0/](http://localhost:8080/bluespurs_test-1.0/)
 
 ## Comments :
 
