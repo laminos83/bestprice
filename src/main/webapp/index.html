@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="js/jquery-3.2.1.min.js"></script>
+    </head>
+    <body>
+    <center> <h1>Blue Spurs Developer Test</h1>
+        <form>
+            <fieldset style="width: 45%; height: 35px;border: 1px solid black;"><legend>Find best price product</legend>
+                <input type="text" id="nameid" size="30"/>
+                <input type="button" id="btnSearchid" value="Go .."/>
+            </fieldset>
+        </form>
+        <fieldset style="width: 45%; height: 200px;border: 1px solid black; ">
+            <legend>Response</legend><div id='loadingmessage' style='display:none'>
+                <img src='img/loading.gif'/>
+            </div>
+
+            <div id="divContentId"></div>
+        </fieldset>
+    </center>
+    <script>
+        $(function () {
+            $('#btnSearchid').click(function () {
+                $('#loadingmessage').show();  // show the loading message.
+                var urlRequest = '/bluespurs_test-1.0/rs/product/search?name=' + $('#nameid').val();
+                $.ajax({
+                    type: 'GET',
+                    url: urlRequest,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+
+                    success: function (response) {
+                        $('#divContentId').html(JSON.stringify(response));
+                        $('#loadingmessage').hide(); // hide the loading message
+
+                    },
+                    error: function (error) {
+                        $('#loadingmessage').hide(); // hide the loading message
+                        alert("Error server:" + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
