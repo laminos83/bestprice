@@ -10,7 +10,7 @@
 
 - make **run.sh** bash script executable   (chmod +x run.sh)
 - run bash script (./run.sh)
--**OR**
+- **OR**
 - Get to the root directory of project
 - Build the project (mvn clean install)
 - Run generated jar (java -jar target/bluespurs_test-1.0.jar --port 8080)
