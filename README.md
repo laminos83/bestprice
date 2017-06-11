@@ -26,6 +26,6 @@
 
 - Jersey RESTful framework is used for developing RESTful Web Services 
 - Payara embedded & Micro used for execution
-- Tested under Linux mint 18 & Window 7
+- Tested under Linux mint 18 & Windows 7
 
 
