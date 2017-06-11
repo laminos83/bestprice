@@ -17,6 +17,8 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 
@@ -58,6 +60,11 @@ public class ProductComparatorService {
         if (productName == null || productName.isEmpty()) {
             throw new ValidationException("name is mandatory !");
         }
+        // only valid chars
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        if (p.matcher(productName).find()) {
+            throw new ValidationException("Invalid input !");
+        }
 
         String wmRestApikey = (String) restApiProperties.get("wmrestapikey");
         String bbRestApikey = (String) restApiProperties.get("bbrestapikey");
@@ -78,8 +85,13 @@ public class ProductComparatorService {
         }
 
         Product lowestPriceProduct = Product.getLowestPriceProduct(wmLowestProduct, bbLowestProduct);
-
-        return getProductWithNewCurrency(lowestPriceProduct, CURRENCY_REF);
+        if (lowestPriceProduct == null) {
+            lowestPriceProduct = new Product();
+            lowestPriceProduct.setName("No product found !");
+        } else {
+            lowestPriceProduct = getProductWithNewCurrency(lowestPriceProduct, CURRENCY_REF);
+        }
+        return lowestPriceProduct;
     }
 
     private Product getProductWithNewCurrency(Product p, String currency) {

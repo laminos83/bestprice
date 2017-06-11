@@ -26,7 +26,7 @@ public class BbProduct {
     }
 
     public Product getLowestPriceProduct() {
-        return getProducts().get(0);
+        return getProducts().isEmpty() ? null : getProducts().get(0);
     }
 
     public void setProducts(List<Product> products) {

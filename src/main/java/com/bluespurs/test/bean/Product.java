@@ -69,6 +69,7 @@ public class Product {
             return p1;
         }
         
+       
         Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p1 :{0}", p1.toString());
         Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p2 :{0}", p2.toString());
 
