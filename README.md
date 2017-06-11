@@ -10,7 +10,7 @@
 
 - make **run.sh** bash script executable   (chmod +x run.sh)
 - run bash script (./run.sh)
-OR
+-**OR**
 - Get to the root directory of project
 - Build the project (mvn clean install)
 - Run generated jar (java -jar target/bluespurs_test-1.0.jar --port 8080)
@@ -19,7 +19,7 @@ OR
 
 - install curl (apt-get install curl)
 - curl [http://localhost:8080/bluespurs_test-1.0/rs/product/search?name=ipod]
-OR
+- **OR**
 - use web interface [http://localhost:8080/bluespurs_test-1.0/]
 
 ###### Comments :
