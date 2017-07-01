@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
  * @author lamine
  */
 public class ProductUtil {
-    
-    private final static String PATTERN_INVALID_INPUT="[^A-Za-z0-9]";
+
+    private final static String PATTERN_INVALID_INPUT = "[^A-Za-z0-9]";
 
     public static void validateProductSearchInput(final String productName) throws ValidationException {
 
@@ -30,12 +30,12 @@ public class ProductUtil {
 
     public static Product getLowestPriceProduct(Product FirstProduct, Product SecondeProduct) {
 
+        String outputLog = MessageFormat.format("First Product :{0} ### Seconde Product :{1}", FirstProduct, SecondeProduct);
+        Logger.getLogger(Product.class.getName()).log(Level.FINE, outputLog);
+
         Product bestPriceProdcut = null;
 
         try {
-
-            String outputLog = MessageFormat.format("First Product :{0} ### Seconde Product :{1}", FirstProduct, SecondeProduct);
-            Logger.getLogger(Product.class.getName()).log(Level.FINE, outputLog);
 
             if (FirstProduct == null) {
                 bestPriceProdcut = SecondeProduct;
