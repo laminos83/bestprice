@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class ProductUtil {
     
-    private final static String PATTERN_VALID_INPUT="[^A-Za-z0-9]";
+    private final static String PATTERN_INVALID_INPUT="[^A-Za-z0-9]";
 
     public static void validateProductSearchInput(final String productName) throws ValidationException {
 
@@ -22,7 +22,7 @@ public class ProductUtil {
             throw new ValidationException("name is mandatory !");
         }
         // only valid chars
-        Pattern p = Pattern.compile(PATTERN_VALID_INPUT);
+        Pattern p = Pattern.compile(PATTERN_INVALID_INPUT);
         if (p.matcher(productName).find()) {
             throw new ValidationException("Invalid input !");
         }
