@@ -28,27 +28,24 @@ public class ProductUtil {
         }
     }
 
-    public static Product getLowestPriceProduct(Product FirstProduct, Product SecondeProduct) {
+    public static Product getLowestPriceProduct(Product firstProduct, Product secondeProduct) {
 
-        String outputLog = MessageFormat.format("First Product :{0} ### Seconde Product :{1}", FirstProduct, SecondeProduct);
+        String outputLog = MessageFormat.format("First Product :{0} ### Seconde Product :{1}", firstProduct, secondeProduct);
         Logger.getLogger(Product.class.getName()).log(Level.FINE, outputLog);
 
         Product bestPriceProdcut = null;
 
-        try {
-
-            if (FirstProduct == null) {
-                bestPriceProdcut = SecondeProduct;
-            } else if (SecondeProduct == null) {
-                bestPriceProdcut = FirstProduct;
-            } else {
-                bestPriceProdcut = FirstProduct.getSalePrice() < SecondeProduct.getSalePrice() ? FirstProduct : SecondeProduct;
-            }
-            return bestPriceProdcut;
-
-        } finally {
-            Logger.getLogger(Product.class.getName()).log(Level.FINE, "Best price product {0}:", bestPriceProdcut);
+        if (firstProduct == null) {
+            bestPriceProdcut = secondeProduct;
+        } else if (secondeProduct == null) {
+            bestPriceProdcut = firstProduct;
+        } else {
+            bestPriceProdcut = firstProduct.getSalePrice() < secondeProduct.getSalePrice() ? firstProduct : secondeProduct;
         }
+        Logger.getLogger(Product.class.getName()).log(Level.FINE, "Best price product {0}:", bestPriceProdcut);
+      
+        return bestPriceProdcut;
+
     }
 
     public static Product getProductWithNewCurrency(Product product, final String urlRateExchange, final String currencyToConvert) throws ValidationException {
