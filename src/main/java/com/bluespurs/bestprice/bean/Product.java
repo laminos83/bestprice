@@ -62,16 +62,16 @@ public class Product {
     }
 
     public static Product getLowestPriceProduct(Product p1, Product p2) {
+       
+        Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p1 :{0}", p1);
+        Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p2 :{0}", p2);
+
         if (p1 == null) {
             return p2;
         }
         if (p2 == null) {
             return p1;
         }
-        
-       
-        Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p1 :{0}", p1.toString());
-        Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p2 :{0}", p2.toString());
 
         return p1.getSalePrice() < p2.getSalePrice() ? p1 : p2;
     }

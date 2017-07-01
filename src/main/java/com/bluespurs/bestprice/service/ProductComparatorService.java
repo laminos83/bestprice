@@ -44,12 +44,13 @@ public class ProductComparatorService {
      * and lowest price best buy
      * @throws com.bluespurs.bestprice.exception.ValidationException validate
      * params
+     * @throws com.bluespurs.bestprice.exception.ProductNotFoundException
      */
     // we need manufacturer references to compare between products, name is not sufficient condition !
     // or we can do comparison if we filter search with many other attributes
     // when we search only by name we can get : Iphone Blue Case compared, Iphone 7 , Iphone 6 charger etc..
     // so we are comparing price between different product !
-    public Product findBestPriceProductByName(final String productName) throws ValidationException {
+    public Product findBestPriceProductByName(final String productName) throws ValidationException, ProductNotFoundException {
 
         if (productName == null || productName.isEmpty()) {
             throw new ValidationException("name is mandatory !");

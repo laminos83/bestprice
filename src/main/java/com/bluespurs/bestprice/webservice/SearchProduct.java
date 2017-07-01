@@ -2,6 +2,7 @@ package com.bluespurs.bestprice.webservice;
 
 import com.bluespurs.bestprice.bean.Product;
 import com.bluespurs.bestprice.exception.CatchRestException;
+import com.bluespurs.bestprice.exception.ProductNotFoundException;
 import com.bluespurs.bestprice.exception.ValidationException;
 import com.bluespurs.bestprice.service.ProductComparatorService;
 import com.bluespurs.bestprice.util.Loggable;
@@ -49,7 +50,7 @@ public class SearchProduct {
     @GET
     @Path("/search")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response productByBestPrice(@QueryParam("name") final String productName) throws ValidationException {
+    public Response productByBestPrice(@QueryParam("name") final String productName) throws ValidationException, ProductNotFoundException {
         
         Product lowestProduct = productComparatorService.findBestPriceProductByName(productName);
         

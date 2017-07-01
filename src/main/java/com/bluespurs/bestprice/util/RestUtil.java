@@ -55,7 +55,7 @@ public class RestUtil {
             conn.setRequestProperty("Accept", "application/json");
 
             if (conn.getResponseCode() != 200) {
-                Logger.getLogger(ProductComparatorService.class.getName()).log(Level.SEVERE, "Erreur de connexion HTTP:{0}", conn.getResponseCode());
+                throw new RuntimeException("HTTP Error <> 200:" + conn.getResponseCode());
 
             }
             is = conn.getInputStream();

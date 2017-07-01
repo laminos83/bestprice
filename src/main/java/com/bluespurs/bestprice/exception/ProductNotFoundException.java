@@ -9,7 +9,7 @@ package com.bluespurs.bestprice.exception;
  *
  * @author lamine
  */
-public class ProductNotFoundException extends RuntimeException{
+public class ProductNotFoundException extends Exception{
 
     public ProductNotFoundException(String message) {
         super(message);
