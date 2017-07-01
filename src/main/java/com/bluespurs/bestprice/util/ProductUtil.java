@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
  * @author lamine
  */
 public class ProductUtil {
+    
+    private final static String PATTERN_VALID_INPUT="[^A-Za-z0-9]";
 
     public static void validateProductSearchInput(final String productName) throws ValidationException {
 
@@ -20,40 +22,39 @@ public class ProductUtil {
             throw new ValidationException("name is mandatory !");
         }
         // only valid chars
-        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        Pattern p = Pattern.compile(PATTERN_VALID_INPUT);
         if (p.matcher(productName).find()) {
             throw new ValidationException("Invalid input !");
         }
     }
 
-    public static Product getLowestPriceProduct(Product p1, Product p2) {
+    public static Product getLowestPriceProduct(Product FirstProduct, Product SecondeProduct) {
 
         Product bestPriceProdcut = null;
 
         try {
 
-            String outputLog = MessageFormat.format("Product p1 :{0} ### Product p2 :{1}", p1, p2);
+            String outputLog = MessageFormat.format("First Product :{0} ### Seconde Product :{1}", FirstProduct, SecondeProduct);
             Logger.getLogger(Product.class.getName()).log(Level.FINE, outputLog);
 
-            if (p1 == null) {
-                return p2;
+            if (FirstProduct == null) {
+                bestPriceProdcut = SecondeProduct;
+            } else if (SecondeProduct == null) {
+                bestPriceProdcut = FirstProduct;
+            } else {
+                bestPriceProdcut = FirstProduct.getSalePrice() < SecondeProduct.getSalePrice() ? FirstProduct : SecondeProduct;
             }
-            if (p2 == null) {
-                return p1;
-            }
-            bestPriceProdcut = p1.getSalePrice() < p2.getSalePrice() ? p1 : p2;
-           
             return bestPriceProdcut;
-            
+
         } finally {
             Logger.getLogger(Product.class.getName()).log(Level.FINE, "Best price product {0}:", bestPriceProdcut);
         }
     }
 
-    public static Product getProductWithNewCurrency(Product p, final String urlRateExchange, final String currencyToConvert) throws ValidationException {
+    public static Product getProductWithNewCurrency(Product product, final String urlRateExchange, final String currencyToConvert) throws ValidationException {
 
-        if (p == null) {
-            throw new ValidationException("product is null !");
+        if (product == null) {
+            throw new ValidationException("Product is null !");
         }
 
         if (urlRateExchange == null || urlRateExchange.isEmpty()) {
@@ -63,7 +64,7 @@ public class ProductUtil {
             throw new ValidationException("Url is Mandatory !");
         }
 
-        p.setCurrency(currencyToConvert);
+        product.setCurrency(currencyToConvert);
 
         String requestRateUrl = String.format(urlRateExchange, currencyToConvert);
         CurrencyObject currencyObject = RestUtil.buildBeanFromUrlRequest(requestRateUrl, CurrencyObject.class);
@@ -72,9 +73,9 @@ public class ProductUtil {
         if (currencyObject != null) {
             rate = currencyObject.getRates().get(currencyToConvert);
         }
-        p.setSalePrice(rate * p.getSalePrice());
+        product.setSalePrice(rate * product.getSalePrice());
 
-        return p;
+        return product;
     }
 
 }
