@@ -11,11 +11,6 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WmProduct extends ProductWrapper{
-
-    public WmProduct() {
-        location="Walmart";
-    }
-    
     
     @JsonProperty("items")
     @Override

@@ -25,8 +25,7 @@ public class LoggingInterceptor implements Serializable {
             proceed = ic.proceed();
             return proceed;
         } finally {
-            String toString = proceed != null ? proceed.toString() : "";
-            Logger.getLogger(LoggingInterceptor.class.getName()).log(Level.INFO, "return:{0}", toString);
+            Logger.getLogger(LoggingInterceptor.class.getName()).log(Level.INFO, "return:{0}", proceed);
         }
     }
 

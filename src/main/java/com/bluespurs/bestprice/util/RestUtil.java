@@ -37,7 +37,7 @@ public class RestUtil {
         return mappedObject;
     }
 
-    private static InputStream restUrlCaller(final String requestedUrl) {
+    public static InputStream restUrlCaller(final String requestedUrl) {
 
         Logger.getLogger(ProductComparatorService.class.getName()).log(Level.FINE, "requested url:{0}", requestedUrl);
 

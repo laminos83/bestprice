@@ -3,8 +3,6 @@ package com.bluespurs.bestprice.bean;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -59,21 +57,6 @@ public class Product {
     @JsonSetter("location")
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public static Product getLowestPriceProduct(Product p1, Product p2) {
-       
-        Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p1 :{0}", p1);
-        Logger.getLogger(Product.class.getName()).log(Level.FINE, "Product p2 :{0}", p2);
-
-        if (p1 == null) {
-            return p2;
-        }
-        if (p2 == null) {
-            return p1;
-        }
-
-        return p1.getSalePrice() < p2.getSalePrice() ? p1 : p2;
     }
 
     @Override

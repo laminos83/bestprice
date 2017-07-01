@@ -10,15 +10,11 @@ import java.util.List;
 public abstract class ProductWrapper {
 
     private List<Product> products;
-    protected String location;
 
     public List<Product> getProducts() {
         if (products == null) {
             products = new ArrayList<>();
         }
-        products.forEach((product) -> {
-            product.setLocation(location);
-        });
         return products;
     }
 
@@ -29,4 +25,5 @@ public abstract class ProductWrapper {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+    
 }

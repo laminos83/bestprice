@@ -11,10 +11,6 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BbProduct extends ProductWrapper {
 
-    public BbProduct() {
-        location="Bestbuy";
-    }
-
     @JsonProperty("products")
     @Override
     public List<Product> getProducts() {

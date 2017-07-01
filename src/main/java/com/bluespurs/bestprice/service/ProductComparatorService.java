@@ -1,17 +1,16 @@
 package com.bluespurs.bestprice.service;
 
 import com.bluespurs.bestprice.bean.BbProduct;
-import com.bluespurs.bestprice.bean.CurrencyObject;
 import com.bluespurs.bestprice.bean.Product;
 import com.bluespurs.bestprice.bean.WmProduct;
 import com.bluespurs.bestprice.exception.ProductNotFoundException;
 import com.bluespurs.bestprice.exception.ValidationException;
 import com.bluespurs.bestprice.util.Loggable;
+import com.bluespurs.bestprice.util.ProductUtil;
 import com.bluespurs.bestprice.util.RestUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 
@@ -34,7 +33,13 @@ public class ProductComparatorService {
 
     @PostConstruct
     public void init() {
-        loadProperties();
+        try {
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("restapikey.properties");
+            restApiProperties = new Properties();
+            restApiProperties.load(inputStream);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
@@ -52,15 +57,7 @@ public class ProductComparatorService {
     // so we are comparing price between different product !
     public Product findBestPriceProductByName(final String productName) throws ValidationException, ProductNotFoundException {
 
-        if (productName == null || productName.isEmpty()) {
-            throw new ValidationException("name is mandatory !");
-        }
-        // only valid chars
-        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-        if (p.matcher(productName).find()) {
-            throw new ValidationException("Invalid input !");
-        }
-
+        ProductUtil.validateProductSearchInput(productName);
 
         String wmRestApikey = (String) restApiProperties.get("wmrestapikey");
         String bbRestApikey = (String) restApiProperties.get("bbrestapikey");
@@ -72,53 +69,30 @@ public class ProductComparatorService {
         BbProduct bbProduct = RestUtil.buildBeanFromUrlRequest(bbSearchUrl, BbProduct.class);
 
         Product wmLowestProduct = null;
+
         if (wmProduct != null) {
             wmLowestProduct = wmProduct.getLowestPriceProduct();
+            if (wmLowestProduct != null) {
+                wmLowestProduct.setLocation("walmart");
+            }
         }
         Product bbLowestProduct = null;
+
         if (bbProduct != null) {
             bbLowestProduct = bbProduct.getLowestPriceProduct();
+            if (bbLowestProduct != null) {
+                bbLowestProduct.setLocation("bestbuy");
+            }
         }
 
-        Product lowestPriceProduct = Product.getLowestPriceProduct(wmLowestProduct, bbLowestProduct);
+        Product lowestPriceProduct = ProductUtil.getLowestPriceProduct(wmLowestProduct, bbLowestProduct);
+       
         if (lowestPriceProduct == null) {
             throw new ProductNotFoundException("No product found !");
         }
-        lowestPriceProduct = getProductWithNewCurrency(lowestPriceProduct, CURRENCY_REF);
+        lowestPriceProduct = ProductUtil.getProductWithNewCurrency(lowestPriceProduct, RATE_EXCHANGE_URL, CURRENCY_REF);
 
         return lowestPriceProduct;
-    }
-
-    private Product getProductWithNewCurrency(Product p, String currency) {
-
-        p.setCurrency(currency);
-        Double salePriceConverted = convertAmountToCurrency(p.getSalePrice(), currency);
-        p.setSalePrice(salePriceConverted);
-
-        return p;
-    }
-
-    // used because walmart amount with USD and Best buy inspecified currency (assumption USD)
-    private Double convertAmountToCurrency(Double amount, String currencyToConvert) {
-
-        String requestRateUrl = String.format(RATE_EXCHANGE_URL, currencyToConvert);
-        CurrencyObject currencyObject = RestUtil.buildBeanFromUrlRequest(requestRateUrl, CurrencyObject.class);
-
-        double rate = 0;
-        if (currencyObject != null) {
-            rate = currencyObject.getRates().get(currencyToConvert);
-        }
-        return rate * amount;
-    }
-
-    private void loadProperties() {
-        try {
-            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("restapikey.properties");
-            restApiProperties = new Properties();
-            restApiProperties.load(inputStream);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
 }
