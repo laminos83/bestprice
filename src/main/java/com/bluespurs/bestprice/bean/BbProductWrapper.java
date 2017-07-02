@@ -9,7 +9,7 @@ import java.util.List;
  * @author lamine
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BbProductWrapper extends ProductStoreWrapper<BbProduct> {
+public class BbProductWrapper extends AbstractProductStoreWrapper<BbProduct> {
 
     @JsonProperty("products")
     @Override

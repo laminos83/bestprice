@@ -1,7 +1,7 @@
 package com.bluespurs.bestprice.service;
 
 import com.bluespurs.bestprice.bean.AbstractProduct;
-import com.bluespurs.bestprice.bean.ProductStoreWrapper;
+import com.bluespurs.bestprice.bean.AbstractProductStoreWrapper;
 import com.bluespurs.bestprice.util.RestUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct;
  *
  * @author lamine
  */
-public abstract class AbstractStoreApiService<E extends ProductStoreWrapper> {
+public abstract class AbstractStoreApiService<E extends AbstractProductStoreWrapper> {
 
     private Properties restApiProperties;
     private Class<E> productStoreClass;
@@ -38,12 +38,12 @@ public abstract class AbstractStoreApiService<E extends ProductStoreWrapper> {
         }
     }
 
-    public AbstractProduct getLowestPriceProduct(final String productName) {
+    public AbstractProduct findLowestPriceProduct(final String productName) {
 
         String restApi = (String) restApiProperties.get(restApiKey);
         String searchUrl = String.format(restApi, productName);
 
-        ProductStoreWrapper productWrapper = RestUtil.buildBeanFromUrlRequest(searchUrl, productStoreClass);
+        E productWrapper = RestUtil.buildBeanFromUrlRequest(searchUrl, productStoreClass);
 
         AbstractProduct lowestPriceProduct = null;
         if (productWrapper != null) {

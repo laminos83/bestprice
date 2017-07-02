@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 @CatchRestException
 public class ExceptionInterceptorRest implements Serializable {
 
-    JsonResponse jsonResponse;
+    private JsonResponse jsonResponse;
     private String message;
 
     @AroundInvoke

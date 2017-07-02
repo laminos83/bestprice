@@ -1,7 +1,7 @@
 package com.bluespurs.bestprice.service;
 
 import com.bluespurs.bestprice.bean.AbstractProduct;
-import com.bluespurs.bestprice.bean.ProductStoreWrapper;
+import com.bluespurs.bestprice.bean.AbstractProductStoreWrapper;
 import com.bluespurs.bestprice.exception.ProductNotFoundException;
 import com.bluespurs.bestprice.exception.ValidationException;
 import com.bluespurs.bestprice.util.Loggable;
@@ -25,7 +25,7 @@ public class ProductComparatorService {
 
     @Inject
     @Any
-    Instance<AbstractStoreApiService<? extends ProductStoreWrapper>> apiStoreServices;
+    Instance<AbstractStoreApiService<? extends AbstractProductStoreWrapper>> apiStoreServices;
 
     /**
      *
@@ -47,7 +47,7 @@ public class ProductComparatorService {
         AbstractProduct bestPriceProduct = null;
 
         for (AbstractStoreApiService apiStoreService : apiStoreServices) {
-            AbstractProduct foundProduct = apiStoreService.getLowestPriceProduct(productName);
+            AbstractProduct foundProduct = apiStoreService.findLowestPriceProduct(productName);
             bestPriceProduct = ProductUtil.getLowestPriceProduct(bestPriceProduct, foundProduct);
         }
 

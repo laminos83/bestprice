@@ -35,7 +35,7 @@ public class SearchProduct {
 
     @Inject
     private ProductComparatorService productComparatorService;
-    JsonResponse jsonResponse;
+    private JsonResponse jsonResponse;
 
     /**
      * <b>Description : search lowest price product by name</b>
@@ -49,9 +49,12 @@ public class SearchProduct {
      * @param productName : keyword to search product by name
      * @return <b>Response json format example</b>
      * <br/>
-     * {"productName": "Dynexâ„¢ - Case for AppleÂ® iPhoneÂ® 6 -
-     * Green/White","bestPrice": 1.337391, "currency": "CAD", "location":
-     * "bestbuy" }
+     * { "message":"","status":"OK","version":"1.0","product":
+     * { "productName":"Rocketfish™ - Apple MFi Certified Premium Vehicle Charger for Apple iPad, iPhone and iPod - Black",
+     *   "bestPrice":6.465044000000001,
+     *   "currency":"CAD",
+     *   "location":"Best buy"}
+     *  }
      * @throws com.bluespurs.bestprice.exception.ValidationException
      * @throws com.bluespurs.bestprice.exception.ProductNotFoundException
      */
@@ -61,9 +64,9 @@ public class SearchProduct {
     public Response productByBestPrice(@QueryParam("name") final String productName) throws ValidationException, ProductNotFoundException {
 
         AbstractProduct lowestProduct = productComparatorService.findBestPriceProductByName(productName);
-        
+
         ProductDTO productDTO = ProductUtil.MapProductToDTO(lowestProduct);
-       
+
         jsonResponse = new JsonResponse();
         jsonResponse.setProduct(productDTO);
         jsonResponse.setStatus(JsonResponse.Status.OK);
