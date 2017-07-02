@@ -7,23 +7,23 @@ import java.util.List;
  *
  * @author lamine
  */
-public abstract class ProductWrapper {
+public abstract class ProductStoreWrapper<T extends AbstractProduct> {
 
-    private List<Product> products;
+    private List<T> products;
 
-    public List<Product> getProducts() {
+    public List<T> getProducts() {
         if (products == null) {
             products = new ArrayList<>();
         }
         return products;
     }
 
-    public Product getLowestPriceProduct() {
+    public AbstractProduct getLowestPriceProduct() {
         return getProducts().isEmpty() ? null : getProducts().get(0);
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<T> products) {
         this.products = products;
     }
-    
+
 }

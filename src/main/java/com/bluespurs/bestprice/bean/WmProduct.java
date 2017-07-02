@@ -1,21 +1,16 @@
-
 package com.bluespurs.bestprice.bean;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
  * @author lamine
  */
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WmProduct extends ProductWrapper{
-    
-    @JsonProperty("items")
-    @Override
-   public List<Product> getProducts() {
-        return super.getProducts();
+public class WmProduct extends AbstractProduct {
+
+    public WmProduct() {
+        super("Walmart");
     }
-    
+
 }
