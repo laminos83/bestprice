@@ -18,6 +18,7 @@ public abstract class AbstractStoreApiService<E extends AbstractProductStoreWrap
     private Properties restApiProperties;
     private Class<E> productStoreClass;
     private final String restApiKey;
+    private String restApi;
 
     public AbstractStoreApiService(String restApiKey) {
         this.restApiKey = restApiKey;
@@ -26,13 +27,14 @@ public abstract class AbstractStoreApiService<E extends AbstractProductStoreWrap
     @PostConstruct
     public void init() {
         try {
-           // resolve generic class
+            // resolve generic class
             productStoreClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            
+
             InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("restapikey.properties");
             restApiProperties = new Properties();
             restApiProperties.load(inputStream);
-            
+            restApi = (String) restApiProperties.get(restApiKey);
+
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -40,7 +42,6 @@ public abstract class AbstractStoreApiService<E extends AbstractProductStoreWrap
 
     public AbstractProduct findLowestPriceProduct(final String productName) {
 
-        String restApi = (String) restApiProperties.get(restApiKey);
         String searchUrl = String.format(restApi, productName);
 
         E productWrapper = RestUtil.buildBeanFromUrlRequest(searchUrl, productStoreClass);
